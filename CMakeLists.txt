@@ -4,8 +4,8 @@ project(LearningV8)
 set(CMAKE_CXX_STANDARD 14)
 
 # need to replace /path-of-v8/ with your own real v8 path
-include_directories(/path-of-v8/)
-include_directories(/path-of-v8/include)
+include_directories(/Volumes/EXCERIA-SATA-SSD/Code/v8/include)
+include_directories(/Volumes/EXCERIA-SATA-SSD/Code/v8)
 
 link_directories(libs)
 
@@ -19,4 +19,4 @@ link_libraries(
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -std=c++14 -DV8_COMPRESS_POINTERS ")
 
-add_executable(LearningV8 main.cpp main.cpp)
+add_executable(LearningV8 src/main.cpp)

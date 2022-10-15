@@ -9,6 +9,6 @@ You can run the demos in this repo, and you can also create some new demos to ve
 ### Prepare Environment
 
 - [fetch V8 source code](https://v8.dev/docs/source-code), checkout to `tags/9.4.146.26` branch
-- replace `/path-of-v8/` in CMakeLists.txt with your own real v8 source dir
+- include your own real v8 source dir and its include folder
 - CLion
 - MacOS
