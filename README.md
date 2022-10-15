@@ -4,7 +4,7 @@
 
 The repo is used to learning the core concepts and designs of V8 internals via these demos.
 
-You can run the demos in this repo, and you can also to create some new demos to verify your thinking  of v8.
+You can run the demos in this repo, and you can also create some new demos to verify your thinking of v8.
 
 ### Prepare Environment
 
