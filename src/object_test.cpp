@@ -9,46 +9,24 @@ class MaybeTest : public V8TestFixture {
 };
 
 TEST_F(MaybeTest, Maybe) {
-    std::cout<<"test started"<<std::endl;
-    bool cond = true;
-    Maybe<int> maybe = cond ? Just<int>(10) : Nothing<int>();
-    EXPECT_TRUE(maybe.IsJust());
-    EXPECT_FALSE(maybe.IsNothing());
-    maybe.Check();
+    const HandleScope handle_scope(isolate_);
+    Local<FunctionTemplate> constructor = Local<FunctionTemplate>();
+    Local<ObjectTemplate> ot = ObjectTemplate::New(isolate_, constructor);
 
-    int nr = maybe.ToChecked();
-    EXPECT_EQ(nr, 10);
-    EXPECT_EQ(maybe.FromJust(), 10);
+    // Add a property that all instanced created from this object template will
+    // have. (Set is member function of class Template):
+    const char *prop_name = "prop_name";
+    const char *prop_value = "prop_value";
+    Local<Name> name = String::NewFromUtf8(isolate_, prop_name, NewStringType::kNormal).ToLocalChecked();
+    Local<Data> value = String::NewFromUtf8(isolate_, prop_value, NewStringType::kNormal).ToLocalChecked();
+    ot->Set(name, value, PropertyAttribute::None);
 
-    Maybe<int> nothing = Nothing<int>();
-    int value = nothing.FromMaybe(22);
-    EXPECT_EQ(value, 22);
+    Handle<Context> context = Context::New(isolate_, nullptr, ot);
+    Local<Object> instance1 = ot->NewInstance(context).ToLocalChecked();
+
+    // Verify that the property we added exist in the instance we created:
+    Local<Value> const &localValue = instance1->Get(context, name).ToLocalChecked();
+    v8::String::Utf8Value str(isolate_, localValue);
+    ASSERT_STREQ(*str, prop_value);
 }
 
-/*
- * I think the intention with a type Maybe<void> is that we don't really
- * care/want to have a value in the Maybe apart from that is empty or
- * something. So instead of having a bool and setting it to true just
- * have void and return an empty. I think this signals the intent of a
- * function better as one might otherwise wonder what the value in the maybe
- * represents.
- */
-Maybe<void> doit(int x) {
-    if (x == -1) {
-        return Nothing<void>();
-    }
-    return JustVoid();
-}
-
-TEST_F(MaybeTest, MaybeVoid) {
-    std::cout<<"test1 started"<<std::endl;
-
-    Maybe<void> maybe = JustVoid();
-    EXPECT_FALSE(maybe.IsNothing());
-
-    Maybe<void> maybe_nothing = Nothing<void>();
-    EXPECT_TRUE(maybe_nothing.IsNothing());
-
-    EXPECT_TRUE(doit(-1).IsNothing());
-    EXPECT_TRUE(doit(1).IsJust());
-}
