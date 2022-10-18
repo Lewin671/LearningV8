@@ -24,6 +24,6 @@ link_libraries(
 
 
 add_executable(LearningV8 src/main.cpp)
-add_executable(test src/object_test.cpp)
+add_executable(test src/object_template_test.cpp)
 add_executable(function_template_test src/function_template_test.cpp)
 
