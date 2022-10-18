@@ -13,9 +13,7 @@ include_directories(src)
 
 link_directories(libs)
 link_libraries(
-        libv8.dylib
-        libv8_libbase.dylib
-        libv8_libplatform.dylib
+        libv8_monolith.a
         libgmock.1.12.1.dylib
         libgmock_main.1.12.1.dylib
         libgtest.1.12.1.dylib
